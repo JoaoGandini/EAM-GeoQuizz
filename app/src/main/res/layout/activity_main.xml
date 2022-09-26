@@ -68,10 +68,23 @@
 
         <Button
             android:id="@+id/botao_deleta"
-            android:layout_width="match_parent"
+            android:layout_width="106dp"
             android:layout_height="wrap_content"
             android:text="Deleta" />
+
+        <Button
+            android:id="@+id/botao_respostas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Resp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/view_respostas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Respostas" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -80,9 +93,9 @@
 
         <TextView
             android:id="@+id/texto_questoes_a_apresentar"
-            android:autoLink = "web"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoLink="web"
 
             android:lineSpacingExtra="@dimen/espaco_de_linhas"
             android:padding="@dimen/padding_regular"
