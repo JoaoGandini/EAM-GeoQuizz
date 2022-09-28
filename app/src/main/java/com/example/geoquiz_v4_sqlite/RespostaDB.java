@@ -11,49 +11,42 @@ public class RespostaDB {
     private static Context mStaticContext;
     private SQLiteDatabase mDatabase;
 
-    public RespostaDB(Context contexto) {
+    public RespostaDB(Context contexto){
         mContext = contexto.getApplicationContext();
         mStaticContext = mContext;
-        mDatabase = new QuestoesDBHelper(mContext).getWritableDatabase();
+        mDatabase = new RespostasDBHelper(mContext).getWritableDatabase();
     }
-
-    private static ContentValues getValoresConteudo(Resposta r) {
-        ContentValues valores_resp = new ContentValues();
+    private static ContentValues getValoresConteudo(Resposta r){
+        ContentValues valores = new ContentValues();
 
         // pares chave-valor: nomes das colunas - valores
-        valores_resp.put(RespostasDbSchema.RespostasTbl.Cols.UUID, r.getId().toString());
-        valores_resp.put(RespostasDbSchema.RespostasTbl.Cols.TEXTO_RESPOSTA,
-                mStaticContext.getString(r.getRespostaOferecida())); // recupera valor do recurso string pelo id
-        return valores_resp;
-    }
+        valores.put(RespostasDBSchema.RespostasTbl.Cols.UUID, r.getmId().toString());
+        valores.put(RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_CORRETA, r.ismRespostaCorreta());
+        valores.put(RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_APRESENTADA, r.ismRespostaApresentada());
+        valores.put(RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_APRESENTADA, r.ismColou());
 
-    public void addResposta(Resposta r) {
-        ContentValues valores_resp = getValoresConteudo(r);
-        mDatabase.insert(RespostasDbSchema.RespostasTbl.NOME, null, valores_resp);
+        return valores;
     }
-
-    public void updateResposta(Resposta r){
-        String uuidString = r.getId().toString();
-        ContentValues valores_resp = getValoresConteudo(r);
+    public void addResposta(Resposta r){
+        ContentValues valores = getValoresConteudo(r);
+        mDatabase.insert(RespostasDBSchema.RespostasTbl.NOME, null, valores);
     }
 
     public Cursor queryResposta(String clausulaWhere, String[] argsWhere){
-        Cursor cursor = mDatabase.query(RespostasDbSchema.RespostasTbl.NOME,
+        Cursor cursor = mDatabase.query(RespostasDBSchema.RespostasTbl.NOME,
                 null,  // todas as colunas
-                clausulaWhere,
-                argsWhere,
+                    clausulaWhere,
+                    argsWhere,
                 null, // sem group by
                 null, // sem having
                 null  // sem order by
-        );
-        return cursor;
+                );
+                return cursor;
     }
-
     void removeBanco(){
         int delete;
         delete = mDatabase.delete(
-                RespostasDbSchema.RespostasTbl.NOME,
+                RespostasDBSchema.RespostasTbl.NOME,
                 null, null);
     }
-
 }

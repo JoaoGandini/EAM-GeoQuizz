@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private Button mBotaoCadastra;
     private Button mBotaoMostra;
     private Button mBotaoDeleta;
-    private Button mBotaoResp;
 
     private Button mBotaoCola;
 
@@ -37,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     QuestaoDB mQuestoesDb;
-
-    RespostaDB mRespostasDb;
 
     private int mIndiceAtual = 0;
 
@@ -62,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 verificaResposta(true);
+                //cadastro de respostas no banco
+                Resposta r = new Resposta(mBancoDeQuestoes[mIndiceAtual].getId(),
+                        true, acertou(true),
+                        mEhColador
+                        );
+//*********CONTINUAR DAQUI
+
             }
         });
 
@@ -69,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         mBotaoFalso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //******************************cadastro de respostas
+
+
                 verificaResposta(false);
             }
         });
@@ -113,43 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Cursor cur = mQuestoesDb.queryQuestao ("_id = ?", val);////(null, null);
         //String [] val = {"1"};
-
-        mBotaoResp = (Button) findViewById(R.id.botao_respostas);
-        mBotaoResp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*
-                  Acesso ao SQLite
-                */
-                if (mRespostasDb == null) return;
-                if (mTextViewRespostasArmazenadas == null) {
-                    mTextViewRespostasArmazenadas = (TextView) findViewById(R.id.texto_questoes_a_apresentar);
-                } else {
-                    mTextViewRespostasArmazenadas.setText("");
-                }
-
-                Cursor cursor = mRespostasDb.queryResposta(null, null);
-                if (cursor != null) {
-                    if (cursor.getCount() == 0) {
-                        mTextViewRespostasArmazenadas.setText("Nenhuma resposta inserida");
-                        Log.i("MSGS", "Nenhum resultado");
-                    }
-                    try {
-                        cursor.moveToFirst();
-                        while (!cursor.isAfterLast()) {
-                            String texto_resp = cursor.getString(cursor.getColumnIndex(RespostasDbSchema.RespostasTbl.Cols.TEXTO_RESPOSTA));
-                            Log.i("MSGS", texto_resp);
-
-                            mTextViewRespostasArmazenadas.append(texto_resp + "\n");
-                            cursor.moveToNext();
-                        }
-                    } finally {
-                        cursor.close();
-                    }
-                } else
-                    Log.i("MSGS", "cursor nulo!");
-            }
-        });
 
 
         mBotaoMostra = (Button) findViewById(R.id.botao_mostra_questoes);
@@ -226,6 +197,11 @@ public class MainActivity extends AppCompatActivity {
                 idMensagemResposta = R.string.toast_incorreto;
         }
         Toast.makeText(this, idMensagemResposta, Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean acertou (boolean respostaPressionada){
+        boolean respostaCorreta = mBancoDeQuestoes[mIndiceAtual].isRespostaCorreta();
+        return respostaPressionada == respostaCorreta;
     }
 
     @Override

@@ -4,39 +4,46 @@ import java.util.UUID;
 
 public class Resposta {
     private UUID mId;
-    private int mRespostaOferecida;
+    private boolean mRespostaApresentada;
     private boolean mRespostaCorreta;
-    private int mColou;
+    private boolean mColou;
 
-    public Resposta(int RespostaOferecida, boolean RespostaCorreta, int Colou) {
-        this.mRespostaOferecida = RespostaOferecida;
-        this.mRespostaCorreta = RespostaCorreta;
-        this.mColou = Colou;
-        mId = UUID.randomUUID();
+    public Resposta(UUID mId, boolean mRespostaCorreta, boolean mRespostaApresentada, boolean mColou) {
+        this.mId = mId;
+        this.mRespostaApresentada = mRespostaApresentada;
+        this.mRespostaCorreta = mRespostaCorreta;
+        this.mColou = mColou;
     }
 
-    UUID getId(){return mId;};
-
-    public int getRespostaOferecida() {
-        return mRespostaOferecida;
+    public UUID getmId() {
+        return mId;
     }
 
-    public void setRespostaOferecida(int RespostaOferecida) {
-        mRespostaOferecida = RespostaOferecida;
+    public boolean ismRespostaApresentada() {
+        return mRespostaApresentada;
     }
 
-    public boolean isRespostaCorreta() {
+    public boolean ismRespostaCorreta() {
         return mRespostaCorreta;
     }
 
-    public void setRespostaCorreta(boolean respostaCorreta) {
-        mRespostaCorreta = respostaCorreta;
-    }
-
-    public int getColou() {
+    public boolean ismColou() {
         return mColou;
     }
 
-    public void setColou(int Colou) { mColou = Colou; }
+    public void setmId(UUID mId) {
+        this.mId = mId;
+    }
 
+    public void setmRespostaApresentada(boolean mRespostaApresentada) {
+        this.mRespostaApresentada = mRespostaApresentada;
+    }
+
+    public void setmRespostaCorreta(boolean mRespostaCorreta) {
+        this.mRespostaCorreta = mRespostaCorreta;
+    }
+
+    public void setmColou(boolean mColou) {
+        this.mColou = mColou;
+    }
 }

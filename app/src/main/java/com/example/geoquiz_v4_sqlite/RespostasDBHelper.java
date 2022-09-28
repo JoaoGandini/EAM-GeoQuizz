@@ -1,6 +1,5 @@
 package com.example.geoquiz_v4_sqlite;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,17 +14,18 @@ public class RespostasDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+ RespostasDbSchema.RespostasTbl.NOME+ "("+
+        db.execSQL("CREATE TABLE "+ RespostasDBSchema.RespostasTbl.NOME+ "("+
                 "_id integer PRIMARY KEY autoincrement,"+
-                RespostasDbSchema.RespostasTbl.Cols.UUID+ ","+
-                RespostasDbSchema.RespostasTbl.Cols.TEXTO_RESPOSTA+ ")");
+                RespostasDBSchema.RespostasTbl.Cols.UUID+ ","+
+                RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_CORRETA+ ","+
+                RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_APRESENTADA + ","+
+                RespostasDBSchema.RespostasTbl.Cols.COLOU+ ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
-        // Política de upgrade é simplesmente descartar o conteúdo e começar novamente
-        db.execSQL("DROP TABLE IF EXISTS " + RespostasDbSchema.RespostasTbl.NOME);
-        onCreate(db);
+            // Política de upgrade é simplesmente descartar o conteúdo e começar novamente
+            db.execSQL("DROP TABLE IF EXISTS " + RespostasDBSchema.RespostasTbl.NOME);
+            onCreate(db);
     }
-
 }

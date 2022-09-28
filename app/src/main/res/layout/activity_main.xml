@@ -56,28 +56,22 @@
 
         <Button
             android:id="@+id/botao_cadastra"
-            android:layout_width="127dp"
+            android:layout_width="129dp"
             android:layout_height="wrap_content"
             android:text="Cadastra" />
 
         <Button
             android:id="@+id/botao_mostra_questoes"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="Mostra" />
 
         <Button
             android:id="@+id/botao_deleta"
-            android:layout_width="106dp"
+            android:layout_width="141dp"
             android:layout_height="wrap_content"
             android:text="Deleta" />
 
-        <Button
-            android:id="@+id/botao_respostas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Resp" />
     </LinearLayout>
 
     <TextView
