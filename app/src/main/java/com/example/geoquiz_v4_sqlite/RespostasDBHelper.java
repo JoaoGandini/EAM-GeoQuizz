@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class RespostasDBHelper extends SQLiteOpenHelper {
     private static final int VERSAO = 1;
-    private static final String NOME_DATABASE = "respostasDB";
+    private static final String NOME_DATABASE = "RespostasDB";
 
     public RespostasDBHelper(Context context) {
         super(context, NOME_DATABASE, null, VERSAO);
@@ -14,18 +14,18 @@ public class RespostasDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+ RespostasDBSchema.RespostasTbl.NOME+ "("+
+        db.execSQL("CREATE TABLE "+ RespostasDbSchema.RespostasTbl.NOME+ "("+
                 "_id integer PRIMARY KEY autoincrement,"+
-                RespostasDBSchema.RespostasTbl.Cols.UUID+ ","+
-                RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_CORRETA+ ","+
-                RespostasDBSchema.RespostasTbl.Cols.RESPOSTA_APRESENTADA + ","+
-                RespostasDBSchema.RespostasTbl.Cols.COLOU+ ")");
+                RespostasDbSchema.RespostasTbl.Cols.UUID+ ","+
+                RespostasDbSchema.RespostasTbl.Cols.RESPOSTA_CORRETA + ","+
+                RespostasDbSchema.RespostasTbl.Cols.RESPOSTA_APRESENTADA+ ","+
+                RespostasDbSchema.RespostasTbl.Cols.COLOU+ ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int versaoAntiga, int novaVersao) {
             // Política de upgrade é simplesmente descartar o conteúdo e começar novamente
-            db.execSQL("DROP TABLE IF EXISTS " + RespostasDBSchema.RespostasTbl.NOME);
+            db.execSQL("DROP TABLE IF EXISTS " + RespostasDbSchema.RespostasTbl.NOME);
             onCreate(db);
     }
 }

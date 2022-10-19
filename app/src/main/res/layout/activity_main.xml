@@ -55,30 +55,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/botao_cadastra"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:text="Cadastra" />
-
-        <Button
             android:id="@+id/botao_mostra_questoes"
-            android:layout_width="140dp"
+            android:layout_width="203dp"
             android:layout_height="wrap_content"
             android:text="Mostra" />
 
         <Button
             android:id="@+id/botao_deleta"
-            android:layout_width="141dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Deleta" />
-
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/view_respostas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Respostas" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -87,9 +74,9 @@
 
         <TextView
             android:id="@+id/texto_questoes_a_apresentar"
+            android:autoLink = "web"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoLink="web"
 
             android:lineSpacingExtra="@dimen/espaco_de_linhas"
             android:padding="@dimen/padding_regular"

@@ -1,13 +1,13 @@
 package com.example.geoquiz_v4_sqlite;
 
-public class RespostasDBSchema {
+public class RespostasDbSchema {
     public static final class RespostasTbl{
-        public static final String NOME = "Respostas";
+        public static final String NOME = "Questoes";
         public static final class Cols{  //identificação das colunas da tabela Questões
             public static final String UUID = "uuid";
-            public static final String RESPOSTA_CORRETA = "resposta_correta";
-            public static final String RESPOSTA_APRESENTADA = "resposta_apresentada";
-            public static final String COLOU = "colou";
+            public static final String RESPOSTA_CORRETA = "Resposta_Correta";
+            public static final String RESPOSTA_APRESENTADA = "Resposta_Apresentada";
+            public static final String COLOU = "Colou";
         }
     }
 }

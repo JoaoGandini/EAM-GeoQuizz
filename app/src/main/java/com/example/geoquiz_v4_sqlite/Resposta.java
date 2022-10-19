@@ -4,14 +4,14 @@ import java.util.UUID;
 
 public class Resposta {
     private UUID mId;
-    private boolean mRespostaApresentada;
     private boolean mRespostaCorreta;
-    private boolean mColou;
+    private boolean mRespostaApres;
+    private  boolean mColou;
 
-    public Resposta(UUID mId, boolean mRespostaCorreta, boolean mRespostaApresentada, boolean mColou) {
+    public Resposta(UUID mId, boolean mRespostaCorreta, boolean mRespostaApres, boolean mColou) {
         this.mId = mId;
-        this.mRespostaApresentada = mRespostaApresentada;
         this.mRespostaCorreta = mRespostaCorreta;
+        this.mRespostaApres = mRespostaApres;
         this.mColou = mColou;
     }
 
@@ -19,28 +19,28 @@ public class Resposta {
         return mId;
     }
 
-    public boolean ismRespostaApresentada() {
-        return mRespostaApresentada;
+    public void setmId(UUID mId) {
+        this.mId = mId;
     }
 
     public boolean ismRespostaCorreta() {
         return mRespostaCorreta;
     }
 
-    public boolean ismColou() {
-        return mColou;
-    }
-
-    public void setmId(UUID mId) {
-        this.mId = mId;
-    }
-
-    public void setmRespostaApresentada(boolean mRespostaApresentada) {
-        this.mRespostaApresentada = mRespostaApresentada;
-    }
-
     public void setmRespostaCorreta(boolean mRespostaCorreta) {
         this.mRespostaCorreta = mRespostaCorreta;
+    }
+
+    public boolean ismRespostaApres() {
+        return mRespostaApres;
+    }
+
+    public void setmRespostaApres(boolean mRespostaApres) {
+        this.mRespostaApres = mRespostaApres;
+    }
+
+    public boolean ismColou() {
+        return mColou;
     }
 
     public void setmColou(boolean mColou) {

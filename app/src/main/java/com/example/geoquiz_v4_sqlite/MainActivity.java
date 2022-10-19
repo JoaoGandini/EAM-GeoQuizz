@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private Button mBotaoVerdadeiro;
     private Button mBotaoFalso;
     private Button mBotaoProximo;
-    private Button mBotaoCadastra;
     private Button mBotaoMostra;
     private Button mBotaoDeleta;
 
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextViewQuestao;
     private TextView mTextViewQuestoesArmazenadas;
-    private TextView mTextViewRespostasArmazenadas;
 
     private static final String TAG = "QuizActivity";
     private static final String CHAVE_INDICE = "INDICE";
@@ -36,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     QuestaoDB mQuestoesDb;
+    RespostasDB mRespostasDb;
 
     private int mIndiceAtual = 0;
 
@@ -49,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         if (instanciaSalva != null) {
             mIndiceAtual = instanciaSalva.getInt(CHAVE_INDICE, 0);
         }
+        if(mRespostasDb == null){
+            mRespostasDb = new RespostasDB(getBaseContext());
+            Log.i("MSGS", "Log criado");
+        }
 
         mTextViewQuestao = (TextView) findViewById(R.id.view_texto_da_questao);
         atualizaQuestao();
@@ -59,13 +62,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 verificaResposta(true);
-                //cadastro de respostas no banco
-                Resposta r = new Resposta(mBancoDeQuestoes[mIndiceAtual].getId(),
-                        true, acertou(true),
-                        mEhColador
-                        );
-//*********CONTINUAR DAQUI
-
             }
         });
 
@@ -73,10 +69,6 @@ public class MainActivity extends AppCompatActivity {
         mBotaoFalso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //******************************cadastro de respostas
-
-
                 verificaResposta(false);
             }
         });
@@ -103,26 +95,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mBotaoCadastra = (Button) findViewById(R.id.botao_cadastra);
-        mBotaoCadastra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*
-                  Acesso ao SQLite
-                */
-                if (mQuestoesDb == null) {
-                    mQuestoesDb = new QuestaoDB(getBaseContext());
-                }
-                int indice = 0;
-                mQuestoesDb.addQuestao(mBancoDeQuestoes[indice++]);
-                mQuestoesDb.addQuestao(mBancoDeQuestoes[indice++]);
-            }
-        });
 
         //Cursor cur = mQuestoesDb.queryQuestao ("_id = ?", val);////(null, null);
         //String [] val = {"1"};
-
-
         mBotaoMostra = (Button) findViewById(R.id.botao_mostra_questoes);
         mBotaoMostra.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,27 +105,35 @@ public class MainActivity extends AppCompatActivity {
                 /*
                   Acesso ao SQLite
                 */
-                if (mQuestoesDb == null) return;
+                if (mRespostasDb == null) return;
                 if (mTextViewQuestoesArmazenadas == null) {
                     mTextViewQuestoesArmazenadas = (TextView) findViewById(R.id.texto_questoes_a_apresentar);
                 } else {
                     mTextViewQuestoesArmazenadas.setText("");
                 }
-                Cursor cursor = mQuestoesDb.queryQuestao(null, null);
+                //Cursor cursor = mQuestoesDb.queryQuestao(null, null);
+                Cursor cursor = mRespostasDb.queryResposta(null, null);
                 if (cursor != null) {
                     if (cursor.getCount() == 0) {
                         mTextViewQuestoesArmazenadas.setText("Nada a apresentar");
                         Log.i("MSGS", "Nenhum resultado");
                     }
-                    //Log.i("MSGS", Integer.toString(cursor.getCount()));
-                    //Log.i("MSGS", "cursor não nulo!");
+                    Log.i("MSGS", Integer.toString(cursor.getCount()));
+                    Log.i("MSGS", "cursor não nulo!");
+                    mTextViewQuestoesArmazenadas.setText("");
                     try {
                         cursor.moveToFirst();
                         while (!cursor.isAfterLast()) {
-                            String texto = cursor.getString(cursor.getColumnIndex(QuestoesDbSchema.QuestoesTbl.Cols.TEXTO_QUESTAO));
-                            Log.i("MSGS", texto);
+                            String rApres = cursor.getString(cursor.getColumnIndex(RespostasDbSchema.RespostasTbl.Cols.RESPOSTA_APRESENTADA));
+                            String rCorreta = cursor.getString(cursor.getColumnIndex(RespostasDbSchema.RespostasTbl.Cols.RESPOSTA_CORRETA));
+                            String rColou = cursor.getString(cursor.getColumnIndex(RespostasDbSchema.RespostasTbl.Cols.COLOU));
 
-                            mTextViewQuestoesArmazenadas.append(texto + "\n");
+
+
+                            mTextViewQuestoesArmazenadas.append("Acertou:"+rCorreta + "\n");
+                            mTextViewQuestoesArmazenadas.append("Resposta apresentada:"+rApres + "\n");
+                            mTextViewQuestoesArmazenadas.append("Colou?:"+rColou + "\n");
+                            mTextViewQuestoesArmazenadas.append("------------------------------------------------"+"\n");
                             cursor.moveToNext();
                         }
                     } finally {
@@ -167,12 +150,19 @@ public class MainActivity extends AppCompatActivity {
                 /*
                   Acesso ao SQLite
                 */
-                if (mQuestoesDb != null) {
-                    mQuestoesDb.removeBanco();
-                    if (mTextViewQuestoesArmazenadas == null) {
+//                if (mQuestoesDb != null) {
+//                    mQuestoesDb.removeBanco();
+//                    if (mTextViewQuestoesArmazenadas == null) {
+//                        mTextViewQuestoesArmazenadas = (TextView) findViewById(R.id.texto_questoes_a_apresentar);
+//                    }
+//                    mTextViewQuestoesArmazenadas.setText("");
+//                }
+                if(mRespostasDb != null){
+                    mRespostasDb.removeBanco();
+                    if(mTextViewQuestoesArmazenadas == null){
                         mTextViewQuestoesArmazenadas = (TextView) findViewById(R.id.texto_questoes_a_apresentar);
                     }
-                    mTextViewQuestoesArmazenadas.setText("");
+                    mTextViewQuestoesArmazenadas.setText("Nada a apresentar");
                 }
             }
         });
@@ -188,20 +178,33 @@ public class MainActivity extends AppCompatActivity {
         boolean respostaCorreta = mBancoDeQuestoes[mIndiceAtual].isRespostaCorreta();
         int idMensagemResposta = 0;
 
+        Resposta r = new Resposta(mBancoDeQuestoes[mIndiceAtual].getId(),false,respostaPressionada,false);
+
+
+        if(mEhColador){
+            r.setmColou(true);
+        }
+        if(respostaPressionada == respostaCorreta){
+            r.setmRespostaCorreta(true);
+        }else{
+            r.setmRespostaCorreta(false);
+        }
+
+
         if (mEhColador) {
             idMensagemResposta = R.string.toast_julgamento;
         } else {
             if (respostaPressionada == respostaCorreta) {
                 idMensagemResposta = R.string.toast_correto;
-            } else
-                idMensagemResposta = R.string.toast_incorreto;
-        }
-        Toast.makeText(this, idMensagemResposta, Toast.LENGTH_SHORT).show();
-    }
 
-    private boolean acertou (boolean respostaPressionada){
-        boolean respostaCorreta = mBancoDeQuestoes[mIndiceAtual].isRespostaCorreta();
-        return respostaPressionada == respostaCorreta;
+            } else{
+                idMensagemResposta = R.string.toast_incorreto;
+
+            }
+
+        }
+        mRespostasDb.addResposta(r);
+        Toast.makeText(this, idMensagemResposta, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -213,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int codigoRequisicao, int codigoResultado, Intent dados) {
+        super.onActivityResult(codigoRequisicao, codigoResultado, dados);
         if (codigoResultado != Activity.RESULT_OK) {
             return;
         }
